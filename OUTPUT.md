@@ -55,19 +55,44 @@ vaguer and run it again. Did the model still call it correctly?
 
 ---
 
-## 4. Extension
+## 4. Multiple tools in one run
+
+Paste a run where the agent uses more than one tool in sequence:
+
+```bash
+python -m agent.cli --task "Are we able to refund a duplicate charge? Check the tickets and the policy."
+```
+
+```
+paste here
+```
+
+**Q5.** How many tool calls did it make, and in what order? Does that match
+what you would expect from the task, or did it search more (or less) than
+seemed necessary?
+
+Optional: try a task of your own that needs at least two tools, and paste
+that run too.
+
+```
+paste here (optional)
+```
+
+---
+
+## 5. Extension
 
 Required for COMP840.
 
-**Q5.** What does your loop do when `max_steps` runs out? How would the
+**Q6.** What does your loop do when `max_steps` runs out? How would the
 caller know that happened, rather than the agent having finished?
 
-**Q6.** Make the calculator fail, by asking the agent something like "what is
+**Q7.** Make the calculator fail, by asking the agent something like "what is
 seventeen times twenty three" in words. What happened? Should a tool failure
 crash the loop, or go back to the model? Argue for one.
 
 ---
 
-## 5. What broke
+## 6. What broke
 
 What went wrong while you were doing this, and what did you do about it?

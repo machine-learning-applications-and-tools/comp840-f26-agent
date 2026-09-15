@@ -100,7 +100,9 @@ python -m agent.cli --task "Are we able to refund a duplicate charge? Check the 
 
 A run that lists files, searches, reads one, then answers -- several tool
 calls in a row -- means your loop is handling more than the one-tool case
-it was first tested on.
+it was first tested on. Paste this run in `OUTPUT.md`. Feel free to also
+try a task of your own that needs at least two tools and paste that run
+too, in the optional slot.
 
 ## Extension
 
