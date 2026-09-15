@@ -121,5 +121,7 @@ def run(task: str, max_steps: int = MAX_STEPS, verbose: bool = True) -> str:
 
 
 if __name__ == "__main__":
+    # Run with:  python -m agent.loop
+    #
     # A task that needs the calculator, so you can tell whether the loop works.
     print(run("A Scale plan costs 499 dollars a month. What would 6 months cost, minus a 150 dollar loyalty discount?"))
