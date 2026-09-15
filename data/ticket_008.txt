@@ -1,0 +1,7 @@
+Subject: Alert emails arriving hours late
+From: ops@driftwoodmedia.net
+
+We rely on threshold alert emails to catch spikes in error rate. For the
+past three days they've been arriving 2-4 hours after the event actually
+happened, which defeats the purpose. In-app notifications seem to show up
+on time, it's just email that's delayed.

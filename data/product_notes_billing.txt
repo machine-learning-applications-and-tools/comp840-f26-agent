@@ -1,0 +1,13 @@
+Product notes — Billing
+
+Duplicate charges: a known bug in the old payment retry logic (fixed in
+the release on the 12th) could submit the same invoice twice if a payment
+gateway timeout occurred. If a customer reports two charges for the same
+invoice period, check the invoice IDs — a real duplicate has two distinct
+invoice numbers for the same period, and should be refunded in full per
+policy, no discretion needed.
+
+Proration: upgrades prorate immediately. Downgrades do not prorate, they
+apply at the next cycle. This surprises customers who expect symmetric
+behavior. It's asked about often enough that it may be worth a banner in
+the billing UI.

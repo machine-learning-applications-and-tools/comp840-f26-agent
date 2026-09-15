@@ -1,0 +1,7 @@
+Subject: SSO login loop
+From: it-admin@cascadehealthpartners.org
+
+Our team logs in through SSO (Okta). Since this morning, users get sent
+back to the Okta login page right after authenticating, over and over. It
+does not happen for accounts using email/password. About 30 people are
+affected. This is blocking our whole team.

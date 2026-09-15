@@ -122,4 +122,4 @@ def run(task: str, max_steps: int = MAX_STEPS, verbose: bool = True) -> str:
 
 if __name__ == "__main__":
     # A task that needs the calculator, so you can tell whether the loop works.
-    print(run("What is 17 times 23, plus 100?"))
+    print(run("A Scale plan costs 499 dollars a month. What would 6 months cost, minus a 150 dollar loyalty discount?"))

@@ -1,0 +1,15 @@
+Security overview
+
+Authentication: email/password with bcrypt hashing, or SSO (Okta, Azure
+AD) on the Scale plan. SSO session timeout is 8 hours; email/password
+sessions are 30 days by default.
+
+API keys: scoped per account, rotated on a 90-day grace-period cycle (see
+product_notes_api.txt). Keys are shown once at creation and never again;
+losing one means generating a new one.
+
+Data at rest is encrypted (AES-256). Data in transit uses TLS 1.2+ only,
+older protocol versions are rejected at the load balancer.
+
+We do not currently offer SSO session timeout as a customer-configurable
+setting. It has been requested by two Scale customers this year.

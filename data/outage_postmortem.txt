@@ -1,0 +1,14 @@
+Postmortem — Delayed alert emails, Sept 2-4
+
+Summary: our mail provider's shared sending queue backed up for roughly 48
+hours following a spike from an unrelated customer on the same
+infrastructure tier. Alert emails queued behind it were delayed by 2-6
+hours. In-app notifications were unaffected since they do not go through
+the mail provider.
+
+Root cause: we share a sending queue with other mail-provider customers on
+our tier and have no dedicated capacity.
+
+Follow-up: evaluating a dedicated sending tier for alert email
+specifically, since it's time-sensitive in a way marketing email is not.
+No committed date yet.

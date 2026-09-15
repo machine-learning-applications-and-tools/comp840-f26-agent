@@ -19,6 +19,8 @@ Adding a tool means three steps:
   3. Add both to TOOLS at the bottom.
 """
 
+from pathlib import Path
+
 # =====================================================================
 # A worked example. Copy this shape.
 # =====================================================================
@@ -66,6 +68,149 @@ CALCULATOR_SCHEMA = {
 
 
 # =====================================================================
+# New this week: eyes on files. Three tools, one shape, one guard.
+# =====================================================================
+#
+# The model never sees a real filesystem path. It only ever sees names, and
+# every name it sends back has to be checked before anything touches disk.
+
+DATA_DIR = (Path(__file__).parent.parent / "data").resolve()
+
+
+def _safe_path(name: str) -> Path:
+    """
+    Resolve `name` to a path inside data/, or raise ValueError.
+
+    Three attacks, two checks:
+
+      ../ traversal    climbing out of data/ with a relative path, e.g.
+                        "../../etc/passwd"
+      absolute paths   "/etc/passwd", ignoring data/ entirely -- pathlib's
+                        `/` operator silently discards the left side when
+                        you join an absolute path onto it, so joining
+                        alone does not stop this the way you'd expect
+      symlinks         a link sitting inside data/ that points somewhere
+                        else -- .resolve() follows it before the
+                        containment check below ever runs, so the check
+                        still catches where it actually points
+
+    Reject absolute paths first, since joining can't. Then resolve ".."
+    and symlinks and confirm what's left is still inside DATA_DIR -- that
+    second check is what catches both traversal and symlinks, in one move.
+    """
+    if Path(name).is_absolute():
+        raise ValueError(f"{name!r} is an absolute path.")
+    candidate = (DATA_DIR / name).resolve()
+    if not candidate.is_relative_to(DATA_DIR):
+        raise ValueError(f"{name!r} resolves outside data/.")
+    return candidate
+
+
+def _iter_data_files():
+    """Every real file in data/, each re-checked through the same guard the
+    model's own requests go through. A symlink inside data/ that points
+    outside it should not be listed, read, or searched either."""
+    for entry in sorted(DATA_DIR.iterdir()):
+        try:
+            path = _safe_path(entry.name)
+        except ValueError:
+            continue
+        if path.is_file():
+            yield path
+
+
+def list_files() -> str:
+    """Return the names of every file in data/, one per line, nothing else."""
+    return "\n".join(path.name for path in _iter_data_files())
+
+
+LIST_FILES_SCHEMA = {
+    "name": "list_files",
+    "description": (
+        "List the names of every file in data/. Call this first if you "
+        "don't already know what's there."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+    },
+}
+
+
+def read_file(name: str) -> str:
+    """Return the contents of one file in data/."""
+    try:
+        path = _safe_path(name)
+    except ValueError as e:
+        return f"Error: {e}"
+    if not path.is_file():
+        return f"Error: no file called {name!r} in data/."
+    return path.read_text(encoding="utf-8")
+
+
+READ_FILE_SCHEMA = {
+    "name": "read_file",
+    "description": (
+        "Return the full contents of one file in data/. Use list_files "
+        "first if you don't already know the exact filename."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string",
+                "description": (
+                    "Exact filename inside data/, e.g. ticket_014.txt. "
+                    "No paths, no directories."
+                ),
+            }
+        },
+        "required": ["name"],
+    },
+}
+
+
+def search_files(query: str) -> str:
+    """
+    Plain substring search across every file in data/.
+
+    Returns one line per match, formatted as "filename: matching line". Not
+    a regex, not case-insensitive, just `in`. That is enough to be useful
+    and simple enough that what it does is never a mystery.
+    """
+    hits = []
+    for path in _iter_data_files():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if query in line:
+                hits.append(f"{path.name}: {line.strip()}")
+    if not hits:
+        return f"No matches for {query!r}."
+    return "\n".join(hits)
+
+
+SEARCH_FILES_SCHEMA = {
+    "name": "search_files",
+    "description": (
+        "Search every file in data/ for a plain substring and return each "
+        "match as 'filename: matching line'. Case-sensitive, not a regex. "
+        "Use this to find which file has what you need before calling "
+        "read_file, rather than reading files one by one."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "query": {
+                "type": "string",
+                "description": "Plain text to search for. Not a regex.",
+            }
+        },
+        "required": ["query"],
+    },
+}
+
+
+# =====================================================================
 # YOUR TURN
 # =====================================================================
 # Port your Week 2 classifier in here as a second tool.
@@ -101,6 +246,9 @@ CALCULATOR_SCHEMA = {
 #
 TOOLS = {
     "calculator": (calculator, CALCULATOR_SCHEMA),
+    "list_files": (list_files, LIST_FILES_SCHEMA),
+    "read_file": (read_file, READ_FILE_SCHEMA),
+    "search_files": (search_files, SEARCH_FILES_SCHEMA),
     # "classify_ticket": (classify_ticket, CLASSIFY_SCHEMA),
 }
 

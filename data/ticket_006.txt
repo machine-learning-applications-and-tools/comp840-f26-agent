@@ -1,0 +1,7 @@
+Subject: Dashboard very slow on large accounts
+From: wen@harborcreekanalytics.com
+
+Loading the main dashboard now takes 15-20 seconds for our account, which
+has around 2 million rows in the events table. It was fast a month ago.
+Smaller test accounts we have load instantly. Is there a row count where
+performance is expected to drop off?

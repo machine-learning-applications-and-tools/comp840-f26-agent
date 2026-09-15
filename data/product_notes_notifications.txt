@@ -1,0 +1,11 @@
+Product notes — Notifications
+
+Alert emails are queued through a third-party mail provider, separate from
+in-app notifications, which write directly to the database and appear
+instantly. Email delivery time depends entirely on the mail provider's
+queue, which can back up during shared infrastructure incidents even when
+nothing is wrong on our side.
+
+If a customer says in-app alerts are timely but email is delayed, this is
+the queue, not a bug in our alerting logic. See outage_postmortem.txt for
+the incident that caused the worst of this.

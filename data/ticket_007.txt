@@ -1,0 +1,7 @@
+Subject: CSV export missing the region column
+From: alicia@summitgearco.com
+
+When I export a report to CSV, the "region" column that shows on screen is
+missing from the downloaded file. All other columns match. This started
+after last week's update. We use the export for a weekly finance report so
+this is a real problem for us right now.

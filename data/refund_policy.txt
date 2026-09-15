@@ -1,0 +1,15 @@
+Pinwheel Analytics — Refund Policy
+
+Monthly plans: charges are non-refundable once a billing cycle has begun.
+Cancelling mid-cycle stops future charges but does not refund the current
+one. Support may issue a prorated refund at their discretion for accounts
+cancelled within the first 5 days of a new cycle.
+
+Annual plans: refundable on a prorated basis within the first 30 days of
+the annual term. After 30 days, non-refundable.
+
+Duplicate or erroneous charges (billing errors, not cancellations) are
+refunded in full once confirmed, no discretion required. Confirm the
+duplicate against the invoice IDs before issuing.
+
+Tax corrections are not refunds. Reissue the invoice instead.

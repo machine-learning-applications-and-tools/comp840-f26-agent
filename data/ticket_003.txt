@@ -1,0 +1,7 @@
+Subject: App crashes on CSV export
+From: priya@fieldworkstudio.com
+
+The mobile app crashes every time I try to export a report as CSV on my
+iPhone 14, iOS 18.1. Works fine on the web dashboard. Steps: open a saved
+report, tap Export, tap CSV, app closes to home screen within a second.
+Happens every time, not just occasionally.

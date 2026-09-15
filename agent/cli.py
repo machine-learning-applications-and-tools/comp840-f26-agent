@@ -1,7 +1,7 @@
 """
 Command line entry point.
 
-    python -m agent.cli --task "What is 17 times 23, plus 100?"
+    python -m agent.cli --task "A Scale plan costs 499 dollars a month. What would 6 months cost, minus a 150 dollar loyalty discount?"
     python -m agent.cli --task "..." --max-steps 5 --quiet
 
 DO NOT CHANGE THE INTERFACE. Later in the term you will run each other's

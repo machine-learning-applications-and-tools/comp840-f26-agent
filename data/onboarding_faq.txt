@@ -1,0 +1,17 @@
+Onboarding FAQ
+
+Q: How long does data take to show up after we install the tracking
+snippet?
+A: Usually under 5 minutes. If nothing appears after an hour, check that
+the snippet is on every page, not just the homepage.
+
+Q: Can we import historical data from another analytics tool?
+A: Yes, via CSV import on Growth and Scale plans. Starter does not support
+import.
+
+Q: Do you offer SSO on the Starter plan?
+A: No. SSO is a Scale plan feature only.
+
+Q: What happens to our data if we downgrade plans?
+A: Data beyond the new plan's retention window is deleted, not archived.
+Export anything you need before downgrading.

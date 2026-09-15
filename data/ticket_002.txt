@@ -1,0 +1,7 @@
+Subject: Getting 429 errors from the API
+From: leo@brightpathlogistics.io
+
+Since yesterday afternoon our sync job has been failing with HTTP 429 on
+/v1/events. We're on the Growth plan. Is the rate limit lower than the docs
+say, or did something change on your end? We batch about 40 requests a
+minute during the nightly sync, which used to be fine.

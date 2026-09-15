@@ -3,3 +3,7 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# instructor-only, never goes to students
+*_solution.py
+*_mine.py

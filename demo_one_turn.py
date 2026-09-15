@@ -16,7 +16,7 @@ from agent.llm import generate, report
 
 LINE = "-" * 66
 
-TASK = "What is 17 times 23, plus 100?"
+TASK = "A Scale plan costs 499 dollars a month. What would 6 months cost, minus a 150 dollar loyalty discount?"
 
 config = types.GenerateContentConfig(
     tools=[types.Tool(function_declarations=tools.schemas())],
@@ -38,8 +38,17 @@ print("THINK     the model decides\n")
 
 response = generate(contents, config=config)
 
+# response.candidates is a list because the API lets you ask for several
+# alternative replies to the same prompt in one call. We never ask for
+# more than one, so there is always exactly one candidate here. [0] is
+# just unwrapping that list -- it is not picking a "best" reply out of
+# several, there is only ever the one.
 call = None
 for part in response.candidates[0].content.parts:
+    # content.parts is ALSO a list, for a different reason: a single
+    # reply can contain more than one piece, for example some text AND a
+    # function call together. So you cannot assume the part you want is
+    # parts[0] -- you have to look through all of them and check each one.
     if getattr(part, "function_call", None):
         call = part.function_call
         break
@@ -51,6 +60,11 @@ if call is None:
     report()
     raise SystemExit
 
+# The model sends back two things here: call.name, a plain string naming
+# which tool it wants (it has to match a name in TOOLS), and call.args, a
+# dictionary of arguments whose keys match the parameters in that tool's
+# own schema. Neither of these has run anything -- this is still just the
+# model describing what it would like to happen next.
 print(f"    It did not answer. It asked for a tool:\n")
 print(f"        {call.name}({dict(call.args)})")
 print(f"\n    That request is still just text. Nothing has run yet.")
@@ -60,8 +74,17 @@ print(f"    input tokens so far: {response.usage_metadata.prompt_token_count}")
 print("\n" + LINE)
 print("ACT       your code runs it\n")
 
-result = tools.run(call.name, dict(call.args))
+# This print only DISPLAYS the call, one line before it happens. The text
+# inside the quotes is a string, not code -- nothing runs when you print
+# it. Printing it first, then running it, is why this line comes before
+# the next one instead of after.
 print(f"    tools.run({call.name!r}, {dict(call.args)})")
+
+# This is the line where something actually happens. Every line before
+# this one in the whole script has been text: read out of a reply,
+# printed to the screen, copied from one variable to another. This is the
+# first line that touches anything outside this process.
+result = tools.run(call.name, dict(call.args))
 print(f"    returned:  {result!r}")
 print("\n    This is the only step the model had nothing to do with.")
 

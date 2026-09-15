@@ -1,0 +1,7 @@
+Subject: Invoice shows wrong tax rate
+From: finance@pemberlyconsulting.com
+
+Our invoice INV-3410 charged 8.25% sales tax, but we're a nonprofit and
+should be tax-exempt on this account (exemption certificate was sent to
+billing@ back in March). Can you correct this invoice and confirm future
+invoices will reflect the exemption?

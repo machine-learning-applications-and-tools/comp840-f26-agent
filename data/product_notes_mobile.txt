@@ -1,0 +1,13 @@
+Product notes — Mobile app
+
+Known issue: CSV export crashes on iOS when a report contains a column
+with a null region value. The crash is a null-pointer in the CSV
+formatter, not a memory or network issue. Fix is scoped for next sprint.
+Workaround: exporting from the web dashboard is unaffected.
+
+Android has no equivalent crash, since it uses a different export path
+that was rewritten last quarter.
+
+If a ticket mentions "export" and "crash" together, this is almost always
+the cause. Check iOS version and whether the report has a null region
+before escalating.

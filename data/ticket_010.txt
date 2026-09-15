@@ -1,0 +1,7 @@
+Subject: Confused about rotating our API key
+From: sam@northfieldretail.com
+
+The docs say to rotate API keys every 90 days but don't say what happens to
+requests already in flight when the old key is revoked, or whether both
+keys work during a grace period. We don't want to break our nightly sync
+job by rotating at the wrong time. Can you clarify the process?

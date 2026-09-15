@@ -1,0 +1,17 @@
+Pinwheel Analytics — Pricing
+
+Starter — $29/month
+  Up to 50,000 events/month, 1 seat, 7-day data retention, community
+  support only.
+
+Growth — $149/month
+  Up to 2,000,000 events/month, 10 seats, 90-day retention, email support,
+  API access with a rate limit of 60 requests/minute.
+
+Scale — $499/month
+  Unlimited events, unlimited seats, 1-year retention, priority support,
+  SSO (Okta, Azure AD), API rate limit of 300 requests/minute.
+
+All plans billed monthly. Annual billing available at a 15% discount.
+Upgrades apply immediately and are prorated. Downgrades apply at the start
+of the next billing cycle.

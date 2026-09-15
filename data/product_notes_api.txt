@@ -1,0 +1,13 @@
+Product notes — API
+
+Rate limits are per API key, not per account: Growth = 60 req/min, Scale =
+300 req/min. Exceeding the limit returns HTTP 429 with a Retry-After
+header. Most customer rate-limit complaints trace back to batching too many
+requests in a single nightly job instead of spreading them out.
+
+Key rotation: generating a new key does not revoke the old one
+immediately. Both keys work for a 24-hour grace period, then the old key
+is revoked automatically. There is no way to extend the grace period.
+
+Known gap: our docs do not currently explain the grace period. Support has
+had to explain this manually in at least three tickets this quarter.

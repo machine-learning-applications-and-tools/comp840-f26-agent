@@ -1,0 +1,18 @@
+Changelog
+
+v2.14.0
+  - Fixed a duplicate-charge bug in the payment retry path triggered by
+    gateway timeouts.
+  - CSV export now includes the region column in all cases (web only).
+
+v2.13.2
+  - Rewrote the Android export path. iOS export unchanged.
+
+v2.13.0
+  - Added SSO support for Scale plan (Okta, Azure AD).
+  - Increased default API rate limit on Growth plan from 30 to 60
+    requests/minute.
+
+v2.12.1
+  - Minor dashboard load-time improvements for accounts under 500,000
+    rows. Large accounts see no change yet.
