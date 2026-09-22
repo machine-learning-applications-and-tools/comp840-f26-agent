@@ -3,6 +3,7 @@ Command line entry point.
 
     python -m agent.cli --task "A Scale plan costs 499 dollars a month. What would 6 months cost, minus a 150 dollar loyalty discount?"
     python -m agent.cli --task "..." --max-steps 5 --quiet
+    python -m agent.cli --task "..." --plan
 
 DO NOT CHANGE THE INTERFACE. Later in the term you will run each other's
 agents, and that only works if every agent is invoked the same way. Add
@@ -12,7 +13,7 @@ options if you like, but --task must keep working exactly as it does now.
 import argparse
 import sys
 
-from agent import loop
+from agent import loop, planner
 
 
 def main(argv=None):
@@ -33,17 +34,26 @@ def main(argv=None):
         "--quiet", action="store_true",
         help="only print the final answer, not each step",
     )
+    parser.add_argument(
+        "--plan", action="store_true",
+        help="write a numbered plan before acting (Week 4), instead of "
+             "reacting one step at a time",
+    )
     args = parser.parse_args(argv)
 
+    run_fn = planner.run_with_plan if args.plan else loop.run
+
     try:
-        answer = loop.run(
+        answer = run_fn(
             args.task,
             max_steps=args.max_steps,
             verbose=not args.quiet,
         )
     except NotImplementedError:
-        print("The loop is not written yet. That is this week's lab: "
-              "fill in run() in agent/loop.py", file=sys.stderr)
+        what = "planner" if args.plan else "loop"
+        where = "agent/planner.py" if args.plan else "agent/loop.py"
+        print(f"The {what} is not written yet. That is this week's lab: "
+              f"fill in {where}", file=sys.stderr)
         return 1
     except KeyboardInterrupt:
         print("\nstopped", file=sys.stderr)

@@ -1,11 +1,16 @@
-# Lab 2 — Week 3: The harness
+# COMP840 / COMP740 — ML Applications and Tools
 
-COMP840 / COMP740 · ML Applications and Tools
+**This repository is yours for the rest of the term.** Weeks 3 to 12 all
+build on it. Do not start a new one each week.
 
-**This repository is yours for the rest of the term.** Weeks 3 to 12 all build
-on it. Do not start a new one each week.
+This file stays stable all term -- it only ever gains one new line in
+"This week" below. Everything week-specific lives in that week's own
+`weekNN-README.md`.
 
 ## Setup
+
+One-time, from Week 3. If your `.venv` still works, you do not need to
+redo this.
 
 ```bash
 python3 -m venv .venv          # Windows: python -m venv .venv
@@ -14,122 +19,17 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Copy your `.env` across from Week 2, or create one containing:
+Your `.env` holds `GEMINI_API_KEY`, also set up once, in Week 3.
 
-```
-GEMINI_API_KEY=your-key-here
-```
+## Pulling each week's files
 
-## What is here
+See `UPDATING.md` for the one-time remote setup and how the weekly pull
+works. Each week's own `weekNN-README.md` has that week's exact file
+list to pull.
 
-```
-agent/
-    __init__.py     makes this a package
-    config.py       the model name. Only place it appears.
-    llm.py          generate(), with rate limiting and retries
-    tools.py        the tools your agent can use
-    loop.py         THE LOOP. This is the lab.
-    cli.py          command line entry point
-demo_one_turn.py    watch one turn happen, step by step
-data/               a small fictional company's files -- support tickets,
-                    pricing, policies -- for the search/read tools below
-                    to point at
-exercises/          this week's in-class coding exercise
-                    (broken_loops.py). You work through it together in
-                    class -- it is not part of the graded lab.
-```
+## This week
 
-Everything works except `loop.py`.
+Open the README for the current week:
 
-## Run this first
-
-```bash
-python demo_one_turn.py
-```
-
-Two API calls. It walks through a single turn of the loop with each step
-labelled, so you can see what you are about to build.
-
-## The lab
-
-### 1. Write the loop
-
-Open `agent/loop.py`. The `run()` function is empty and its docstring tells
-you, in order, what the body has to do.
-
-It is about fifteen lines. Test it with:
-
-```bash
-python -m agent.cli --task "A Scale plan costs 499 dollars a month. What would 6 months cost, minus a 150 dollar loyalty discount?"
-```
-
-That task needs the calculator, so if it comes back with 2844 and you can see
-a tool call in the output, your loop works.
-
-### 2. Add your classifier as a second tool
-
-Open `agent/tools.py`. There is a worked example, `calculator`, showing the
-shape: a Python function, a schema, and an entry in `TOOLS`.
-
-Port your Week 2 classifier in the same way. Then check the agent can use it:
-
-```bash
-python -m agent.cli --task "Classify this ticket: I was charged twice."
-```
-
-### 3. Answer the questions
-
-In `OUTPUT.md`.
-
-## Tools already given to you
-
-Alongside `calculator`, three more tools are already written and ready to
-use -- you do not have to implement any of them:
-
-- `list_files()` -- names of every file in `data/`
-- `read_file(name)` -- the contents of one file
-- `search_files(query)` -- a plain substring search across all of them,
-  returns the filename and matching line for each hit
-
-Once your loop works, try a task that needs them instead of the
-calculator:
-
-```bash
-python -m agent.cli --task "Are we able to refund a duplicate charge? Check the tickets and the policy."
-```
-
-A run that lists files, searches, reads one, then answers -- several tool
-calls in a row -- means your loop is handling more than the one-tool case
-it was first tested on. Paste this run in `OUTPUT.md`. Feel free to also
-try a task of your own that needs at least two tools and paste that run
-too, in the optional slot.
-
-## Extension
-
-Required for COMP840. Optional but encouraged for COMP740.
-
-- **Step limit.** What happens when `max_steps` runs out? Make the difference
-  between "finished" and "gave up" visible to whoever called it.
-- **Tool failure.** Make the calculator fail on purpose, by asking for
-  something with letters in it. Does your loop crash, or does the model get
-  told and recover? Which do you think is better, and why?
-
-## Do not change the entry point
-
-`python -m agent.cli --task "..."` has to keep working exactly as it does now.
-In Week 12 you will run each other's agents, and that only works if they are
-all invoked the same way. Add options if you want. Do not remove `--task`.
-
-## Watch your quota
-
-15 requests a minute, 500 a day. Each run of your loop is several calls, and
-a loop with a bug can be many more. `MAX_STEPS` exists partly to protect you
-from yourself.
-
-If something goes wrong, stop it with Ctrl+C rather than letting it run.
-
-## Submitting
-
-Fill in `OUTPUT.md` and commit everything, including your code.
-
-**Due 11:59pm Sunday.**
+- `week03-README.md` — The harness
+- `week04-README.md` — The planner
