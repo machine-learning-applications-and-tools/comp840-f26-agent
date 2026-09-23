@@ -170,4 +170,4 @@ If something goes wrong, stop it with Ctrl+C rather than letting it run.
 
 Fill in `week04-OUTPUT.md` and commit everything, including your code.
 
-**Due 11:59pm Sunday.**
+**Due 11:59pm Monday.**
