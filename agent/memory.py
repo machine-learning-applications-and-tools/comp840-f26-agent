@@ -67,7 +67,7 @@ def save(session: str, task: str, answer: str) -> None:
 
 
 def with_memory(task: str, session: str) -> str:
-    """
+    r"""
     Fold this session's prior turns into task, the same way Week 4 folded
     a plan in. What comes back is just a task string -- hand it to run()
     or run_with_plan() exactly as you would the original task.
@@ -81,15 +81,15 @@ def with_memory(task: str, session: str) -> str:
 
     2.  Build a block describing prior turns, oldest first:
 
-            "\\n".join(
-                f"You: {t['task']}\\nYou answered: {t['answer']}"
+            "\n".join(
+                f"You: {t['task']}\nYou answered: {t['answer']}"
                 for t in turns
             )
 
     3.  Return task with that block prepended, clearly labelled as prior
         conversation rather than part of the current request:
 
-            f"Earlier in this conversation:\\n{block}\\n\\nNow: {task}"
+            f"Earlier in this conversation:\n{block}\n\nNow: {task}"
 
     Saving is NOT this function's job. Call memory.save() yourself, after
     you have the answer, with the ORIGINAL task -- not the folded one --
@@ -109,7 +109,7 @@ def with_memory(task: str, session: str) -> str:
 # =======================================================================
 
 def summarize(session: str, keep_recent: int = 3) -> None:
-    """
+    r"""
     Compress everything except the most recent `keep_recent` turns into
     one short summary, and rewrite the session's saved history to be
     just that summary followed by the recent turns, unchanged.
@@ -133,13 +133,13 @@ def summarize(session: str, keep_recent: int = 3) -> None:
 
             from agent.llm import generate
 
-            block = "\\n".join(
-                f"You: {t['task']}\\nYou answered: {t['answer']}"
+            block = "\n".join(
+                f"You: {t['task']}\nYou answered: {t['answer']}"
                 for t in older
             )
             response = generate(
                 "Summarize this conversation history in 2-3 sentences, "
-                "keeping only what would matter for future questions.\\n\\n"
+                "keeping only what would matter for future questions.\n\n"
                 f"{block}"
             )
 
