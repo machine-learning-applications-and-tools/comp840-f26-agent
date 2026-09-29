@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import errors
 
-from agent.config import MODEL, REQUESTS_PER_MINUTE
+from agent.config import EMBED_MODEL, MODEL, REQUESTS_PER_MINUTE
 
 load_dotenv()
 
@@ -59,7 +59,10 @@ _MIN_INTERVAL = 60.0 / REQUESTS_PER_MINUTE
 _last_call = {}
 
 # Running totals for the whole script run.
-stats = {"calls": 0, "retries": 0, "input_tokens": 0, "output_tokens": 0}
+stats = {
+    "calls": 0, "retries": 0, "input_tokens": 0, "output_tokens": 0,
+    "embed_calls": 0,
+}
 
 
 def _is_rate_limit(err):
@@ -120,6 +123,46 @@ def generate(contents, config=None, model=None, max_retries=6, verbose=True):
     raise RuntimeError(f"gave up after {max_retries} attempts")
 
 
+def embed(text, model=None, max_retries=6, verbose=True):
+    """
+    Turn text into an embedding vector, waiting and retrying as needed.
+
+    Same throttling and retry machinery as generate(), against a separate
+    per-model call budget -- an embedding model has its own quota, not
+    the generation model's.
+
+    text -- a single string
+    Returns the embedding as a list of floats.
+    """
+    model = model or EMBED_MODEL
+
+    for attempt in range(max_retries):
+        _throttle(model)
+        try:
+            resp = client().models.embed_content(model=model, contents=text)
+        except errors.ClientError as e:
+            if not _is_rate_limit(e) or attempt == max_retries - 1:
+                raise
+            wait = min(2**attempt, 60) + random.uniform(0, 1)
+            stats["retries"] += 1
+            if verbose:
+                print(f"  [rate limited, waiting {wait:.1f}s]")
+            time.sleep(wait)
+        except errors.ServerError as e:
+            if attempt == max_retries - 1:
+                raise
+            wait = min(2**attempt, 30) + random.uniform(0, 1)
+            stats["retries"] += 1
+            if verbose:
+                print(f"  [server error {e}, retrying in {wait:.1f}s]")
+            time.sleep(wait)
+        else:
+            stats["embed_calls"] += 1
+            return resp.embeddings[0].values
+
+    raise RuntimeError(f"gave up after {max_retries} attempts")
+
+
 def report():
     """Print what this script run consumed. Call at the end of a lab."""
     print(
@@ -127,4 +170,5 @@ def report():
         f" | {stats['retries']} retries"
         f" | {stats['input_tokens']} input tokens"
         f" | {stats['output_tokens']} total tokens"
+        f" | {stats['embed_calls']} embed calls"
     )

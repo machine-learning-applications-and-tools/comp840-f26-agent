@@ -33,3 +33,4 @@ Open the README for the current week:
 
 - `week03-README.md` — The harness
 - `week04-README.md` — The planner
+- `week05-README.md` — Memory

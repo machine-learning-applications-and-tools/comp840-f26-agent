@@ -13,3 +13,10 @@ MODEL_LARGE = "gemini-3.5-flash"
 # Free-tier quota is per project, PER MODEL. We space our own calls out
 # to stay under it rather than getting rejected.
 REQUESTS_PER_MINUTE = 15
+
+# For demo_semantic_recall.py. Verified working 21 September 2026 --
+# "text-embedding-004" (the previous value here) is a 404 as of this
+# term, withdrawn without notice, exactly what the course warns about.
+# There is also a "gemini-embedding-2-preview" -- do not use it, per the
+# no-preview-models rule; this is the current non-preview generation.
+EMBED_MODEL = "gemini-embedding-2"
