@@ -3,8 +3,8 @@ Exercise · Two broken loops
 
 Both functions below look like reasonable attempts at agent/loop.py. Each
 is wrong in a different way. Neither raises an exception or prints an
-obvious error, so running one will not tell you what is wrong on its own
-— you have to trace the logic.
+obvious error, so running one will not tell you what is wrong. You have
+to trace the logic.
 
 The task: for each function, find the bug and write down, in your own
 words, what goes wrong and why. Do not fix them. That is a separate

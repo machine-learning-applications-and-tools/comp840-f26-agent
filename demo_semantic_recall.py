@@ -2,19 +2,19 @@
 Week 5 demo · Recency isn't relevance
 
 with_memory() folds in every saved turn. The extension's summarize() keeps
-the most RECENT few and compresses the rest. Neither one asks whether an
-older turn is actually the one a new question is about.
+the most recent few and compresses the rest. Neither one checks whether an
+older turn is the one a new question is about.
 
-This builds five saved turns by hand, on five different topics -- same
-{"task", "answer"} shape memory.py uses, but never imported from it, same
-reason demo_memory.py builds its own JSON by hand. It shows which turns
-summarize(keep_recent=3) would keep verbatim, then embeds all five tasks
-plus a new question and ranks them by similarity instead of by recency.
+It builds five saved turns by hand, on five different topics, in the same
+{"task", "answer"} shape memory.py uses. Like demo_memory.py, it does not
+import memory.py. It shows which turns summarize(keep_recent=3) would keep
+word for word, then embeds all five tasks and a new question, and ranks
+the turns by similarity instead of by recency.
 
 Run:  python demo_semantic_recall.py
-Costs 6 embed() calls. No generate() calls -- the saved answers below are
-written by hand, since this demo is about which past TASK is relevant,
-not about producing new answers.
+Costs 6 embed() calls and no generate() calls. The saved answers below
+are written by hand, because this demo is about which past task is
+relevant, not about producing new answers.
 """
 
 from agent.llm import embed, report

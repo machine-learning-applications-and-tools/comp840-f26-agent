@@ -1,4 +1,4 @@
-# Week 3 — OUTPUT
+# Week 3: OUTPUT
 
 Name:
 Date:

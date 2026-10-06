@@ -1,25 +1,23 @@
 """
 Week 4 demo · Same task, two strategies, back to back
 
-Runs one task two different ways: reactively (last week's loop, no plan
-at all) and plan-then-execute (the exact fold run_with_plan() will do,
-built by hand here since planner.py is not written yet at this point in
-class -- same reason demo_plan_only.py never imports agent.planner).
+Runs one task two ways: reactively (last week's loop, no plan) and
+plan-then-execute (the same fold run_with_plan() will do). The plan is
+built by hand here, because planner.py is not written yet at this point
+in class. demo_plan_only.py works the same way.
 
 Run:  python demo_react_vs_plan.py
 Costs at least 3 API calls (1 plan call + at least 1 step each way).
 
-Both runs below get a higher step ceiling than the lab's own MAX_STEPS --
-this is a live demo, not the lab, and a demo that hits loop.py's default
-10-step cap without answering makes for a bad class moment. This does not
-change loop.py or MAX_STEPS itself, only what this one script asks for.
+Both runs get a higher step limit than the lab's MAX_STEPS, so the demo
+does not stop at loop.py's 10-step limit before answering. This does not
+change loop.py or MAX_STEPS. It only affects this script.
 
-Both runs also use run_with_trace() below instead of agent.loop.run()
-directly. It is the same loop, step for step -- same config, same
-stopping condition, same tools -- copied here only so a multi-line
-search_files() result prints on separate lines instead of as one long
-line with literal \\n's in it. agent.loop.run() itself is untouched, and
-is still what planner.py and everything else in the lab actually calls.
+Both runs also use run_with_trace() below instead of agent.loop.run().
+It is the same loop, with the same config, stopping rule and tools. It
+is copied here only so a multi-line search_files() result prints on
+separate lines. agent.loop.run() is unchanged, and it is still what
+planner.py and the rest of the lab call.
 """
 
 from google.genai import types
@@ -31,15 +29,15 @@ from tasks import TASKS
 
 LINE = "-" * 66
 TASK = TASKS[0]
-DEMO_MAX_STEPS = 20  # headroom for this live demo only -- see note above
+DEMO_MAX_STEPS = 20  # for this demo only. See the note above.
 
 
 def run_with_trace(task: str, max_steps: int) -> str:
     """
     agent.loop.run(), copied here so this demo can print a multi-line tool
-    result across several lines. Everything except that one print is
-    identical to run() -- same config, same stopping condition, same
-    tools -- so the calls this makes, and their cost, match run() exactly.
+    result across several lines. Everything except that one print is the
+    same as run(): config, stopping rule and tools. So the calls it makes,
+    and their cost, match run().
     """
     config = types.GenerateContentConfig(
         tools=[types.Tool(function_declarations=tools.schemas())],
@@ -81,7 +79,7 @@ def run_with_trace(task: str, max_steps: int) -> str:
 
 
 print(LINE)
-print("Strategy 1: ReAct -- decide one step at a time, no plan\n")
+print("Strategy 1: ReAct. Decide one step at a time, no plan.\n")
 print(f'  task: "{TASK}"')
 
 before = dict(llm.stats)
@@ -93,7 +91,7 @@ print(f"\n  answer: {answer_reactive}")
 print(f"  cost:   {calls_reactive} calls")
 
 print("\n" + LINE)
-print("Strategy 2: plan-then-execute -- write the plan first, then run it\n")
+print("Strategy 2: plan-then-execute. Write the plan first, then run it.\n")
 
 before = dict(llm.stats)
 plan_response = generate(
@@ -121,15 +119,14 @@ print(f"  cost:   {calls_planned} calls (includes the plan call)")
 print("\n" + LINE)
 print(f"""
 Same task, same tools, same model. {calls_reactive} calls reactive versus
-{calls_planned} calls planned -- the gap between them is exactly what this
-week's compare() extension asks you to measure yourself, on tasks you pick.
+{calls_planned} calls planned. compare() in planner.py measures this gap
+for you, on every task in tasks.py.
 
-Neither strategy is "correct." ReAct adapts the moment a tool result
+Neither strategy is always right. ReAct adapts as soon as a tool result
 changes what is needed, and costs nothing extra up front. Plan-then-
-execute commits to an order before spending a single tool call, and gives
-you something to read and sanity-check before it runs -- but that plan
-can go stale the instant step 1's result changes what step 3 should have
-been.
+execute picks an order before any tool call, and gives you a plan to
+read and check first. But the plan can go out of date as soon as step
+1's result changes what step 3 should be.
 """)
 
 report()

@@ -85,18 +85,16 @@ def _safe_path(name: str) -> Path:
 
       ../ traversal    climbing out of data/ with a relative path, e.g.
                         "../../etc/passwd"
-      absolute paths   "/etc/passwd", ignoring data/ entirely -- pathlib's
-                        `/` operator silently discards the left side when
-                        you join an absolute path onto it, so joining
-                        alone does not stop this the way you'd expect
-      symlinks         a link sitting inside data/ that points somewhere
-                        else -- .resolve() follows it before the
-                        containment check below ever runs, so the check
-                        still catches where it actually points
+      absolute paths   "/etc/passwd", ignoring data/ entirely. Joining an
+                        absolute path onto data/ with pathlib's `/` drops
+                        data/, so joining alone does not stop this.
+      symlinks         a link inside data/ that points somewhere else.
+                        .resolve() follows it before the check below, so
+                        the check sees where it really points.
 
-    Reject absolute paths first, since joining can't. Then resolve ".."
-    and symlinks and confirm what's left is still inside DATA_DIR -- that
-    second check is what catches both traversal and symlinks, in one move.
+    Reject absolute paths first, since joining cannot. Then resolve ".."
+    and symlinks, and confirm the result is still inside DATA_DIR. That
+    second check catches both traversal and symlinks.
     """
     if Path(name).is_absolute():
         raise ValueError(f"{name!r} is an absolute path.")

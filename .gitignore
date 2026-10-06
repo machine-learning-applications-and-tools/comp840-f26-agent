@@ -10,3 +10,6 @@ __pycache__/
 
 # saved conversations -- generated at runtime, not source
 /memory/
+
+# cached embeddings -- generated at runtime, not source
+/index/

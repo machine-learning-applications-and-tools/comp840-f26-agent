@@ -1,4 +1,4 @@
-# Week 5 — Memory
+# Week 5: Memory
 
 COMP840 / COMP740 · ML Applications and Tools
 
@@ -54,11 +54,11 @@ demo_one_turn.py    Week 3's demo, still here for reference
 demo_plan_only.py, demo_react_vs_plan.py
                     Week 4's demos, still here for reference
 demo_memory.py      watch memory pass between two runs, by hand
-demo_semantic_recall.py   the most RECENT saved turn vs. the most
-                          RELEVANT one -- see "Recency isn't relevance" below
+demo_semantic_recall.py   the most recent saved turn vs. the most
+                          relevant one. See "Recency isn't relevance" below.
 tasks.py            six tasks that need three or more tools in sequence
 memory/             saved conversations land here once memory.py works
-                     (gitignored -- generated at runtime, not source)
+                     (gitignored, created at runtime)
 ```
 
 Everything works except `memory.py`, as long as your Week 3 loop and
@@ -71,8 +71,9 @@ python demo_memory.py
 ```
 
 Two API calls. It saves a fact to a JSON file, then starts a completely
-separate call to `run()` and hands that file's contents back in — by hand,
-so you see the mechanism before you write `load()` and `save()`.
+separate call to `run()` and hands that file's contents back in. It does
+this by hand, so you see how it works before you write `load()` and
+`save()`.
 
 ## The idea
 
@@ -82,18 +83,18 @@ the loop connects them.
 
 Same trick as Week 4: fold the missing piece into the task text, and hand
 that to a loop that already knows what to do with a task string. This week,
-the missing piece is what happened last time — loaded from a file, not from
-the model's memory, because it does not have any.
+the missing piece is what happened last time. It comes from a file, not
+from the model, because the model remembers nothing between calls.
 
 ## The lab
 
 Open `agent/memory.py`. Three functions, all empty:
 
-- `load(session)` — read a session's saved turns from disk. `[]` if there
+- `load(session)`: read a session's saved turns from disk. `[]` if there
   are none yet.
-- `save(session, task, answer)` — append one turn and write the whole file
+- `save(session, task, answer)`: append one turn and write the whole file
   back.
-- `with_memory(task, session)` — fold prior turns into `task`, the same way
+- `with_memory(task, session)`: fold prior turns into `task`, the same way
   `planner.py` folds in a plan.
 
 Test it:
@@ -121,21 +122,19 @@ instead of by how recent they are:
 python demo_semantic_recall.py
 ```
 
-Six `embed()` calls, no `generate()` calls. Not part of the required lab. `EMBED_MODEL` in `agent/config.py` is
-verified working against the live API as of this term -- the previous
-value, `text-embedding-004`, had quietly 404'd, withdrawn without
-notice, and has been replaced. The exact free-tier quota for the current
-model still has to be checked on your own [AI Studio rate-limit
-page](https://aistudio.google.com/rate-limit) -- that page needs your
-Google login, so it can't be checked for you automatically.
+Six `embed()` calls, no `generate()` calls. Not part of the required lab.
+`embed()` uses `EMBED_MODEL` from `agent/config.py`, which has its own
+free-tier budget: 100 requests a minute and 1,000 a day. You can see
+your usage on your [AI Studio rate-limit
+page](https://aistudio.google.com/rate-limit).
 
 ## Extension
 
 Required for COMP840. Optional but encouraged for COMP740.
 
 - **Context budgeting.** `with_memory()` folds in every saved turn, every
-  time, forever — the same "every step resends everything" problem from
-  Week 3, now across runs instead of within one. Fill in
+  time. That is Week 3's "every step resends everything" problem again,
+  this time across runs instead of within one. Fill in
   `summarize(session, keep_recent=3)` at the bottom of `agent/memory.py`:
   compress everything except the most recent `keep_recent` turns into one
   summary, using one extra call to the model.
@@ -159,14 +158,14 @@ agents, and that only works if they are all invoked the same way.
 ## Watch your quota
 
 15 requests a minute, 500 a day. A session used across many separate runs
-resends more of its history each time, until you write `summarize()` — that
-is the whole point of the extension, not just a nice-to-have.
+resends more of its history each time. `summarize()`, the extension,
+is how you cut that down.
 
 If something goes wrong, stop it with Ctrl+C rather than letting it run.
 
 ## Submitting
 
 Fill in `week05-OUTPUT.md` and commit everything, including your code. Do not
-commit anything under `memory/` — it is gitignored on purpose.
+commit anything under `memory/`. It is gitignored on purpose.
 
 **Due 11:59pm Monday.**

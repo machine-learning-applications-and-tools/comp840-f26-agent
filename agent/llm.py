@@ -54,8 +54,8 @@ def client():
 # Minimum seconds between calls to the same model, derived from the quota.
 _MIN_INTERVAL = 60.0 / REQUESTS_PER_MINUTE
 
-# When did we last call each model? Keyed by model name because the free-tier
-# quota is enforced per model -- using two models gives you two budgets.
+# When did we last call each model? Keyed by model name, because the
+# free-tier quota is per model. Two models means two budgets.
 _last_call = {}
 
 # Running totals for the whole script run.
@@ -83,9 +83,9 @@ def generate(contents, config=None, model=None, max_retries=6, verbose=True):
     """
     Call the model, waiting and retrying as needed.
 
-    contents -- a string, or a list of types.Content for multi-turn calls
-    config   -- an optional types.GenerateContentConfig (tools, temperature, ...)
-    model    -- override the default model from config.py
+    contents: a string, or a list of types.Content for multi-turn calls
+    config:   an optional types.GenerateContentConfig (tools, temperature, ...)
+    model:    use this model instead of the default in config.py
     """
     model = model or MODEL
 
@@ -127,11 +127,10 @@ def embed(text, model=None, max_retries=6, verbose=True):
     """
     Turn text into an embedding vector, waiting and retrying as needed.
 
-    Same throttling and retry machinery as generate(), against a separate
-    per-model call budget -- an embedding model has its own quota, not
-    the generation model's.
+    Same pacing and retries as generate(). The embedding model has its
+    own quota, separate from the generation model's.
 
-    text -- a single string
+    text: a single string
     Returns the embedding as a list of floats.
     """
     model = model or EMBED_MODEL

@@ -1,10 +1,10 @@
 """
 Week 4 demo · Watch a plan get written
 
-Before you write make_plan(), watch what one raw call for a plan actually
-returns. This does not import agent.planner -- it makes the exact call
-make_plan() has to make, by hand, so you see the real shape of a reply
-before you write code that has to parse it.
+Before you write make_plan(), see what one call asking for a plan
+returns. It does not import agent.planner. It makes the same call
+make_plan() has to make, by hand, so you see the shape of a real reply
+before you write code that parses it.
 
 Run:  python demo_plan_only.py
 Costs 1 API call.

@@ -66,8 +66,7 @@ def run(task: str, max_steps: int = MAX_STEPS, verbose: bool = True) -> str:
             )
 
         That second argument turns OFF the SDK's own loop. You are writing
-        the loop. If you let the SDK do it, you will not be able to see or
-        debug any of this, which is the entire point of the exercise.
+        the loop. If the SDK does it, you cannot see or debug any of it.
 
     2.  Start the conversation with the task.
 

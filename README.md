@@ -1,10 +1,10 @@
-# COMP840 / COMP740 — ML Applications and Tools
+# COMP840 / COMP740: ML Applications and Tools
 
 **This repository is yours for the rest of the term.** Weeks 3 to 12 all
 build on it. Do not start a new one each week.
 
-This file stays stable all term -- it only ever gains one new line in
-"This week" below. Everything week-specific lives in that week's own
+This file stays the same all term, except for one new line each week in
+"This week" below. Everything for a given week is in that week's
 `weekNN-README.md`.
 
 ## Setup
@@ -31,6 +31,7 @@ list to pull.
 
 Open the README for the current week:
 
-- `week03-README.md` — The harness
-- `week04-README.md` — The planner
-- `week05-README.md` — Memory
+- `week03-README.md`: The harness
+- `week04-README.md`: The planner
+- `week05-README.md`: Memory
+- `week06-README.md`: Retrieval and grounding

@@ -1,4 +1,4 @@
-# Lab 2 — Week 3: The harness
+# Lab 2: Week 3: The harness
 
 COMP840 / COMP740 · ML Applications and Tools
 
@@ -31,12 +31,11 @@ agent/
     loop.py         THE LOOP. This is the lab.
     cli.py          command line entry point
 demo_one_turn.py    watch one turn happen, step by step
-data/               a small fictional company's files -- support tickets,
-                    pricing, policies -- for the search/read tools below
-                    to point at
+data/               a small fictional company's files: support tickets,
+                    pricing and policies, for the file tools below
 exercises/          this week's in-class coding exercise
                     (broken_loops.py). You work through it together in
-                    class -- it is not part of the graded lab.
+                    class. It is not part of the graded lab.
 ```
 
 Everything works except `loop.py`.
@@ -84,12 +83,12 @@ In `OUTPUT.md`.
 ## Tools already given to you
 
 Alongside `calculator`, three more tools are already written and ready to
-use -- you do not have to implement any of them:
+use. You do not have to write any of them:
 
-- `list_files()` -- names of every file in `data/`
-- `read_file(name)` -- the contents of one file
-- `search_files(query)` -- a plain substring search across all of them,
-  returns the filename and matching line for each hit
+- `list_files()`: the names of every file in `data/`
+- `read_file(name)`: the contents of one file
+- `search_files(query)`: a plain substring search across all of them,
+  returning the filename and matching line for each hit
 
 Once your loop works, try a task that needs them instead of the
 calculator:
@@ -98,9 +97,9 @@ calculator:
 python -m agent.cli --task "Are we able to refund a duplicate charge? Check the tickets and the policy."
 ```
 
-A run that lists files, searches, reads one, then answers -- several tool
-calls in a row -- means your loop is handling more than the one-tool case
-it was first tested on. Paste this run in `OUTPUT.md`. Feel free to also
+A run that lists files, searches, reads one, then answers makes several
+tool calls in a row. That shows your loop handles more than the one-tool
+case you first tested it on. Paste this run in `OUTPUT.md`. Feel free to also
 try a task of your own that needs at least two tools and paste that run
 too, in the optional slot.
 

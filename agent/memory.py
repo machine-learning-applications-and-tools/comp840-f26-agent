@@ -1,12 +1,12 @@
 """
 Memory across runs.
 
-THIS FILE IS THE LAB. Everything else already works, including loop.py --
-you are not changing it, same as last week.
+This file is the lab. Everything else already works, including loop.py.
+You are not changing it.
 
-Every run so far has started from nothing. Tell it your name in one run,
-ask for it back in the next, and it has no idea -- not because the model
-forgot, but because nothing saved the first run's turn anywhere.
+Every run so far has started from nothing. Tell it your name in one run
+and ask for it in the next, and it does not know. The model did not
+forget. Nothing saved the first run anywhere.
 
 Same trick as Week 4's planner: fold the missing piece into the task
 text, and hand that to a loop that already knows what to do with a task
@@ -38,9 +38,8 @@ def load(session: str) -> list[dict]:
     1.  If _path(session) does not exist, return []. A new session is
         not an error.
 
-    2.  Otherwise read the file and json.loads() it. It is exactly the
-        list save() wrote below -- no reshaping needed on the way back
-        in.
+    2.  Otherwise read the file and json.loads() it. It is the same
+        list save() wrote, so no reshaping is needed.
     """
     raise NotImplementedError("write memory.load")
 
@@ -69,15 +68,15 @@ def save(session: str, task: str, answer: str) -> None:
 def with_memory(task: str, session: str) -> str:
     r"""
     Fold this session's prior turns into task, the same way Week 4 folded
-    a plan in. What comes back is just a task string -- hand it to run()
-    or run_with_plan() exactly as you would the original task.
+    a plan in. What comes back is just a task string. Hand it to run()
+    or run_with_plan() as you would the original task.
 
     ------------------------------------------------------------------
     WHAT YOU HAVE TO WRITE
     ------------------------------------------------------------------
 
-    1.  turns = load(session). If there are none, return task unchanged
-        -- nothing to fold in yet.
+    1.  turns = load(session). If there are none, return task
+        unchanged.
 
     2.  Build a block describing prior turns, oldest first:
 
@@ -91,21 +90,21 @@ def with_memory(task: str, session: str) -> str:
 
             f"Earlier in this conversation:\n{block}\n\nNow: {task}"
 
-    Saving is NOT this function's job. Call memory.save() yourself, after
-    you have the answer, with the ORIGINAL task -- not the folded one --
-    so next time's block does not nest a conversation inside a
+    Do not save anything here. Call memory.save() yourself, after you
+    have the answer, with the original task, not the folded one.
+    Otherwise the next fold would put a conversation inside a
     conversation.
     """
     raise NotImplementedError("write memory.with_memory")
 
 
 # =======================================================================
-# GRADUATE EXTENSION -- COMP840 required, COMP740 optional
+# GRADUATE EXTENSION. COMP840 required, COMP740 optional.
 #
-# with_memory() folds in EVERY saved turn, forever. A session used every
-# day for a month resends a month of history on every single call. That
-# is Week 3's "every step resends everything" slide, back again -- this
-# time across runs instead of within one.
+# with_memory() folds in every saved turn, every time. A session used
+# daily for a month resends a month of history on every call. That is
+# Week 3's "every step resends everything" problem again, this time
+# across runs instead of within one.
 # =======================================================================
 
 def summarize(session: str, keep_recent: int = 3) -> None:
@@ -114,16 +113,16 @@ def summarize(session: str, keep_recent: int = 3) -> None:
     one short summary, and rewrite the session's saved history to be
     just that summary followed by the recent turns, unchanged.
 
-    Not automatic -- call this yourself, occasionally, from a Python
-    shell. A real system might call it every N turns; showing it works
-    once is enough for this lab.
+    It does not run on its own. Call it yourself from a Python shell. A
+    real system might call it every few turns. For this lab, showing it
+    works once is enough.
 
     ------------------------------------------------------------------
     WHAT YOU HAVE TO WRITE
     ------------------------------------------------------------------
 
     1.  turns = load(session). If there are keep_recent or fewer,
-        return without changing anything -- nothing to compress yet.
+        return without changing anything.
 
     2.  Split into older = turns[:-keep_recent] and
         recent = turns[-keep_recent:].

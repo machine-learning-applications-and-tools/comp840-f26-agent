@@ -1,12 +1,11 @@
 """
 Six tasks for the planner.
 
-Each one needs at least three tool calls in sequence -- some combination
-of list_files, search_files, read_file, and calculator -- against the
-data/ files list_files/read_file/search_files already point at. None of
-these are answerable from a single tool call, and none are answerable by
-guessing; each one requires actually looking something up before the
-arithmetic (or the final answer) makes sense.
+Each one needs at least three tool calls in a row, using some mix of
+list_files, search_files, read_file and calculator on the files in data/.
+None can be answered with a single tool call or by guessing. Each one
+needs something looked up before the arithmetic or the final answer makes
+sense.
 
 Given, not an exercise. Run the planner against these once it works:
 

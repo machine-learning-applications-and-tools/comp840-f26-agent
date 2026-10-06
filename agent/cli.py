@@ -5,6 +5,7 @@ Command line entry point.
     python -m agent.cli --task "..." --max-steps 5 --quiet
     python -m agent.cli --task "..." --plan
     python -m agent.cli --task "..." --session karen
+    python -m agent.cli --task "..." --retrieve
 
 DO NOT CHANGE THE INTERFACE. Later in the term you will run each other's
 agents, and that only works if every agent is invoked the same way. Add
@@ -14,7 +15,7 @@ options if you like, but --task must keep working exactly as it does now.
 import argparse
 import sys
 
-from agent import loop, memory, planner
+from agent import loop, memory, planner, retrieval
 
 
 def main(argv=None):
@@ -45,14 +46,23 @@ def main(argv=None):
         help="remember this conversation under a name, across separate "
              "runs (Week 5)",
     )
+    parser.add_argument(
+        "--retrieve", action="store_true",
+        help="fold in the most relevant documents from data/ before "
+             "acting (Week 6), instead of relying on the model to call "
+             "search_files/read_file itself",
+    )
     args = parser.parse_args(argv)
 
     run_fn = planner.run_with_plan if args.plan else loop.run
     task = args.task
 
     try:
+        if args.retrieve:
+            task = retrieval.with_retrieval(task)
+
         if args.session:
-            task = memory.with_memory(args.task, args.session)
+            task = memory.with_memory(task, args.session)
 
         answer = run_fn(
             task,
@@ -63,7 +73,9 @@ def main(argv=None):
         if args.session:
             memory.save(args.session, args.task, answer)
     except NotImplementedError:
-        if args.session:
+        if args.retrieve:
+            what, where = "retrieval", "agent/retrieval.py"
+        elif args.session:
             what, where = "memory", "agent/memory.py"
         elif args.plan:
             what, where = "planner", "agent/planner.py"

@@ -40,15 +40,14 @@ response = generate(contents, config=config)
 
 # response.candidates is a list because the API lets you ask for several
 # alternative replies to the same prompt in one call. We never ask for
-# more than one, so there is always exactly one candidate here. [0] is
-# just unwrapping that list -- it is not picking a "best" reply out of
-# several, there is only ever the one.
+# more than one, so there is always exactly one candidate here. [0] just
+# takes it out of the list. It is not picking a "best" reply.
 call = None
 for part in response.candidates[0].content.parts:
     # content.parts is ALSO a list, for a different reason: a single
     # reply can contain more than one piece, for example some text AND a
     # function call together. So you cannot assume the part you want is
-    # parts[0] -- you have to look through all of them and check each one.
+    # parts[0]. Look through all of them and check each one.
     if getattr(part, "function_call", None):
         call = part.function_call
         break
@@ -63,8 +62,8 @@ if call is None:
 # The model sends back two things here: call.name, a plain string naming
 # which tool it wants (it has to match a name in TOOLS), and call.args, a
 # dictionary of arguments whose keys match the parameters in that tool's
-# own schema. Neither of these has run anything -- this is still just the
-# model describing what it would like to happen next.
+# own schema. Nothing has run yet. This is still just the model saying
+# what it would like to happen next.
 print(f"    It did not answer. It asked for a tool:\n")
 print(f"        {call.name}({dict(call.args)})")
 print(f"\n    That request is still just text. Nothing has run yet.")
@@ -74,10 +73,8 @@ print(f"    input tokens so far: {response.usage_metadata.prompt_token_count}")
 print("\n" + LINE)
 print("ACT       your code runs it\n")
 
-# This print only DISPLAYS the call, one line before it happens. The text
-# inside the quotes is a string, not code -- nothing runs when you print
-# it. Printing it first, then running it, is why this line comes before
-# the next one instead of after.
+# This print only shows the call, one line before it happens. The text
+# in the quotes is a string, not code, so printing it runs nothing.
 print(f"    tools.run({call.name!r}, {dict(call.args)})")
 
 # This is the line where something actually happens. Every line before

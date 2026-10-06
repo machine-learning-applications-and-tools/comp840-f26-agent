@@ -1,4 +1,4 @@
-# Week 4 — OUTPUT
+# Week 4: OUTPUT
 
 Name:
 Date:
@@ -21,8 +21,8 @@ paste here
 it. Did the loop underneath follow it step by step, or did it depart from
 the plan at any point? If it departed, was that a problem?
 
-**Q2.** How many API calls did this task take in total — the planning call
-plus every step of the loop? How does that compare to what the same task
+**Q2.** How many API calls did this task take in total, counting the
+planning call and every step of the loop? How does that compare to what the same task
 would have cost reactively, without a plan?
 
 ---
@@ -31,8 +31,8 @@ would have cost reactively, without a plan?
 
 Run your planner against at least three tasks from `tasks.py`.
 
-**Q3.** Pick the task where the plan was least useful — ignored by the
-loop, wrong about what tools were needed, or just restating the task
+**Q3.** Pick the task where the plan was least useful: ignored by the
+loop, wrong about which tools were needed, or just restating the task
 without breaking it into real steps. Paste the plan and say what was wrong
 with it.
 
@@ -49,14 +49,14 @@ Run `compare()` on **all six** tasks from `tasks.py`. Required for everyone.
 **Q5.** Paste the output (both answers, both cost lines) for **three**
 tasks that show three different outcomes:
 
-- one where planning **won** — cheaper and/or a clearly better answer,
-- one that was a **near-tie** — no meaningful difference either way,
-- one where **reactive won** — planning cost more (in calls or tokens)
-  for no real benefit, or lost outright.
+- one where planning **won**: cheaper, a clearly better answer, or both
+- one that was a **near-tie**: no real difference either way
+- one where **reactive won**: planning cost more calls or tokens for no
+  real benefit, or gave a worse answer
 
-**Q6.** Across all six tasks: is there a pattern to which way a task
-goes — task length, how much the tools need a specific order, something
-else? What would make you trust that pattern, given six tasks on one
+**Q6.** Across all six tasks, is there a pattern to which way a task
+goes? For example task length, how much the tools need a specific order,
+or something else. What would make you trust that pattern, given six tasks on one
 model?
 
 ---

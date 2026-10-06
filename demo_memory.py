@@ -3,9 +3,8 @@ Week 5 demo · Memory, by hand
 
 Before you write agent/memory.py, watch two separate "runs" pass
 information between each other using nothing but a JSON file on disk.
-This does not import agent.memory -- it does by hand exactly what
-load() and save() have to do, so you see the mechanism before you write
-it.
+It does not import agent.memory. It does by hand what load() and
+save() have to do, so you see how it works before you write it.
 
 Run:  python demo_memory.py
 Costs 2 API calls.
@@ -47,7 +46,7 @@ print("\n" + LINE)
 print("""
 Nothing about run() changed between these two calls. Both times it built
 a fresh contents list from one task string and ran the same loop. The
-only thing that changed is what string it was handed -- exactly like
+only thing that changed is the string it was handed, just like
 Week 4's plan.
 """)
 

@@ -1,4 +1,4 @@
-# Week 5 — OUTPUT
+# Week 5: OUTPUT
 
 Name:
 Date:
@@ -13,8 +13,8 @@ Paste the output of `python demo_memory.py`.
 paste here
 ```
 
-**Q1.** The second call to `run()` in the demo never touches the JSON file
-directly — the file's contents get folded into a plain string first. What
+**Q1.** The second call to `run()` in the demo never reads the JSON file
+itself. The file's contents are folded into a plain string first. What
 would the model actually see if you printed `folded` right before calling
 `run()`?
 
@@ -48,7 +48,7 @@ had to?
 **Q4.** Start a brand new session and ask it to use a tool from Week 3
 (the calculator, or a file lookup), across two separate `--session` calls
 the way you did above. Does memory carry a tool RESULT across runs, or
-only the plain task/answer text? Why — point at the exact line in
+only the plain task/answer text? Why? Point at the exact line in
 `memory.py` that explains it.
 
 ---
