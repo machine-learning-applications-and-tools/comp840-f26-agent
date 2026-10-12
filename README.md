@@ -35,3 +35,4 @@ Open the README for the current week:
 - `week04-README.md`: The planner
 - `week05-README.md`: Memory
 - `week06-README.md`: Retrieval and grounding
+- `week07-08-README.md`: Sandboxing and sub-agents

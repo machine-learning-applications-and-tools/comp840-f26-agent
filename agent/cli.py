@@ -6,6 +6,7 @@ Command line entry point.
     python -m agent.cli --task "..." --plan
     python -m agent.cli --task "..." --session karen
     python -m agent.cli --task "..." --retrieve
+    python -m agent.cli --task "..." --orchestrate
 
 DO NOT CHANGE THE INTERFACE. Later in the term you will run each other's
 agents, and that only works if every agent is invoked the same way. Add
@@ -15,7 +16,8 @@ options if you like, but --task must keep working exactly as it does now.
 import argparse
 import sys
 
-from agent import loop, memory, planner, retrieval
+from agent import delegate, loop, memory, planner, retrieval
+from agent import sandbox  # noqa: F401  (adds run_python to the tools)
 
 
 def main(argv=None):
@@ -52,9 +54,19 @@ def main(argv=None):
              "acting (Week 6), instead of relying on the model to call "
              "search_files/read_file itself",
     )
+    parser.add_argument(
+        "--orchestrate", action="store_true",
+        help="split the task across sub-agents, each in its own fresh "
+             "conversation, then combine their answers (Weeks 7-8)",
+    )
     args = parser.parse_args(argv)
 
-    run_fn = planner.run_with_plan if args.plan else loop.run
+    if args.orchestrate:
+        run_fn = delegate.orchestrate
+    elif args.plan:
+        run_fn = planner.run_with_plan
+    else:
+        run_fn = loop.run
     task = args.task
 
     try:
@@ -73,7 +85,9 @@ def main(argv=None):
         if args.session:
             memory.save(args.session, args.task, answer)
     except NotImplementedError:
-        if args.retrieve:
+        if args.orchestrate:
+            what, where = "orchestrator", "agent/delegate.py"
+        elif args.retrieve:
             what, where = "retrieval", "agent/retrieval.py"
         elif args.session:
             what, where = "memory", "agent/memory.py"
