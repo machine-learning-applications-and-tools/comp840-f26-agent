@@ -36,3 +36,4 @@ Open the README for the current week:
 - `week05-README.md`: Memory
 - `week06-README.md`: Retrieval and grounding
 - `week07-08-README.md`: Sandboxing and sub-agents
+- `week11-README.md`: Agents with different jobs
